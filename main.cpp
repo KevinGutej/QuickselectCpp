@@ -65,6 +65,53 @@ public:
         return (arr[n / 2 - 1] + arr[n / 2]) / 2.0;
     }
 
+    int sum(int arr[], int n) {
+        int s = 0;
+        for (int i = 0; i < n; i++) {
+            s += arr[i];
+        }
+        return s;
+    }
+
+    double average(int arr[], int n) {
+        int s = sum(arr, n);
+        return (double)s / n;
+    }
+
+    int frequency(int arr[], int n, int num) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == num) count++;
+        }
+        return count;
+    }
+
+    int mode(int arr[], int n) {
+        int maxCount = 0;
+        int modeValue = arr[0];
+        for (int i = 0; i < n; i++) {
+            int count = 0;
+            for (int j = 0; j < n; j++) {
+                if (arr[j] == arr[i]) count++;
+            }
+            if (count > maxCount) {
+                maxCount = count;
+                modeValue = arr[i];
+            }
+        }
+        return modeValue;
+    }
+
+    void reverse(int arr[], int n) {
+        int left = 0;
+        int right = n - 1;
+        while (left < right) {
+            swap(arr[left], arr[right]);
+            left++;
+            right--;
+        }
+    }
+
     void printArray(int arr[], int size) {
         for (int i = 0; i < size; i++) {
             printf("%d ", arr[i]);
@@ -86,14 +133,12 @@ class QuickSelect {
         int pivotValue = arr[pivotIndex];
         swap(arr[pivotIndex], arr[right]);
         int storeIndex = left;
-
         for (int i = left; i < right; i++) {
             if (arr[i] < pivotValue) {
                 swap(arr[i], arr[storeIndex]);
                 storeIndex++;
             }
         }
-
         swap(arr[storeIndex], arr[right]);
         return storeIndex;
     }
@@ -105,16 +150,13 @@ public:
         k--;
 
         int left = 0, right = size - 1;
-
         while (left <= right) {
             int pivotIndex = rng.nextInt(left, right);
             int partitionIndex = partition(arr, left, right, pivotIndex);
-
             if (partitionIndex == k) return arr[partitionIndex];
             else if (partitionIndex < k) left = partitionIndex + 1;
             else right = partitionIndex - 1;
         }
-
         return arr[left];
     }
 };
@@ -127,7 +169,6 @@ int main() {
 
     printf("Enter number of elements: ");
     scanf("%d", &n);
-
     if (n <= 0 || n > 1000) {
         printf("Invalid size\n");
         return 1;
@@ -138,9 +179,6 @@ int main() {
         scanf("%d", &arr[i]);
     }
 
-    int original[1000];
-    for (int i = 0; i < n; i++) original[i] = arr[i];
-
     printf("\nChoose an operation:\n");
     printf("1. Find k-th smallest\n");
     printf("2. Find k-th largest\n");
@@ -148,6 +186,11 @@ int main() {
     printf("4. Find maximum\n");
     printf("5. Find median\n");
     printf("6. Sort array\n");
+    printf("7. Sum of elements\n");
+    printf("8. Average of elements\n");
+    printf("9. Frequency of a number\n");
+    printf("10. Mode of the array\n");
+    printf("11. Reverse the array\n");
     printf("Enter choice: ");
     scanf("%d", &choice);
 
@@ -178,6 +221,25 @@ int main() {
     } else if (choice == 6) {
         utils.quicksort(arr, 0, n - 1);
         printf("Sorted array: ");
+        utils.printArray(arr, n);
+    } else if (choice == 7) {
+        int s = utils.sum(arr, n);
+        printf("Sum of elements: %d\n", s);
+    } else if (choice == 8) {
+        double avg = utils.average(arr, n);
+        printf("Average: %.2f\n", avg);
+    } else if (choice == 9) {
+        int x;
+        printf("Enter number to find frequency: ");
+        scanf("%d", &x);
+        int freq = utils.frequency(arr, n, x);
+        printf("Frequency of %d: %d\n", x, freq);
+    } else if (choice == 10) {
+        int m = utils.mode(arr, n);
+        printf("Mode of array: %d\n", m);
+    } else if (choice == 11) {
+        utils.reverse(arr, n);
+        printf("Reversed array: ");
         utils.printArray(arr, n);
     } else {
         printf("Invalid choice\n");

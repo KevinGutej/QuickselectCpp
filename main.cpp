@@ -112,6 +112,44 @@ public:
         }
     }
 
+    int countEven(int arr[], int n) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] % 2 == 0) count++;
+        }
+        return count;
+    }
+
+    int countOdd(int arr[], int n) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] % 2 != 0) count++;
+        }
+        return count;
+    }
+
+    void rotateLeft(int arr[], int n, int d) {
+        d = d % n;
+        for (int i = 0; i < d; i++) {
+            int temp = arr[0];
+            for (int j = 0; j < n - 1; j++) {
+                arr[j] = arr[j + 1];
+            }
+            arr[n - 1] = temp;
+        }
+    }
+
+    void rotateRight(int arr[], int n, int d) {
+        d = d % n;
+        for (int i = 0; i < d; i++) {
+            int temp = arr[n - 1];
+            for (int j = n - 1; j > 0; j--) {
+                arr[j] = arr[j - 1];
+            }
+            arr[0] = temp;
+        }
+    }
+
     void printArray(int arr[], int size) {
         for (int i = 0; i < size; i++) {
             printf("%d ", arr[i]);
@@ -191,6 +229,10 @@ int main() {
     printf("9. Frequency of a number\n");
     printf("10. Mode of the array\n");
     printf("11. Reverse the array\n");
+    printf("12. Count even numbers\n");
+    printf("13. Count odd numbers\n");
+    printf("14. Rotate left\n");
+    printf("15. Rotate right\n");
     printf("Enter choice: ");
     scanf("%d", &choice);
 
@@ -210,36 +252,47 @@ int main() {
         int res = qs.select(arr, n, k, 1);
         printf("The %d-th largest element is: %d\n", k, res);
     } else if (choice == 3) {
-        int res = utils.findMin(arr, n);
-        printf("Minimum value is: %d\n", res);
+        printf("Minimum value is: %d\n", utils.findMin(arr, n));
     } else if (choice == 4) {
-        int res = utils.findMax(arr, n);
-        printf("Maximum value is: %d\n", res);
+        printf("Maximum value is: %d\n", utils.findMax(arr, n));
     } else if (choice == 5) {
-        double med = utils.findMedian(arr, n);
-        printf("Median is: %.2f\n", med);
+        printf("Median is: %.2f\n", utils.findMedian(arr, n));
     } else if (choice == 6) {
         utils.quicksort(arr, 0, n - 1);
         printf("Sorted array: ");
         utils.printArray(arr, n);
     } else if (choice == 7) {
-        int s = utils.sum(arr, n);
-        printf("Sum of elements: %d\n", s);
+        printf("Sum of elements: %d\n", utils.sum(arr, n));
     } else if (choice == 8) {
-        double avg = utils.average(arr, n);
-        printf("Average: %.2f\n", avg);
+        printf("Average: %.2f\n", utils.average(arr, n));
     } else if (choice == 9) {
         int x;
         printf("Enter number to find frequency: ");
         scanf("%d", &x);
-        int freq = utils.frequency(arr, n, x);
-        printf("Frequency of %d: %d\n", x, freq);
+        printf("Frequency of %d: %d\n", x, utils.frequency(arr, n, x));
     } else if (choice == 10) {
-        int m = utils.mode(arr, n);
-        printf("Mode of array: %d\n", m);
+        printf("Mode of array: %d\n", utils.mode(arr, n));
     } else if (choice == 11) {
         utils.reverse(arr, n);
         printf("Reversed array: ");
+        utils.printArray(arr, n);
+    } else if (choice == 12) {
+        printf("Number of even elements: %d\n", utils.countEven(arr, n));
+    } else if (choice == 13) {
+        printf("Number of odd elements: %d\n", utils.countOdd(arr, n));
+    } else if (choice == 14) {
+        int d;
+        printf("Enter number of positions to rotate left: ");
+        scanf("%d", &d);
+        utils.rotateLeft(arr, n, d);
+        printf("Array after left rotation: ");
+        utils.printArray(arr, n);
+    } else if (choice == 15) {
+        int d;
+        printf("Enter number of positions to rotate right: ");
+        scanf("%d", &d);
+        utils.rotateRight(arr, n, d);
+        printf("Array after right rotation: ");
         utils.printArray(arr, n);
     } else {
         printf("Invalid choice\n");

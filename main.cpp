@@ -67,9 +67,7 @@ public:
 
     int sum(int arr[], int n) {
         int s = 0;
-        for (int i = 0; i < n; i++) {
-            s += arr[i];
-        }
+        for (int i = 0; i < n; i++) s += arr[i];
         return s;
     }
 
@@ -156,6 +154,69 @@ public:
         }
         printf("\n");
     }
+
+    int isPrime(int num) {
+        if (num <= 1) return 0;
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) return 0;
+        }
+        return 1;
+    }
+
+    int countPrimes(int arr[], int n) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (isPrime(arr[i])) count++;
+        }
+        return count;
+    }
+
+    int findSecondMin(int arr[], int n) {
+        int min = findMin(arr, n);
+        int second = 2147483647;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] != min && arr[i] < second) second = arr[i];
+        }
+        return second;
+    }
+
+    int findSecondMax(int arr[], int n) {
+        int max = findMax(arr, n);
+        int second = -2147483648;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] != max && arr[i] > second) second = arr[i];
+        }
+        return second;
+    }
+
+    int removeDuplicates(int arr[], int n) {
+        if (n == 0) return 0;
+        quicksort(arr, 0, n - 1);
+        int j = 0;
+        for (int i = 1; i < n; i++) {
+            if (arr[i] != arr[j]) {
+                j++;
+                arr[j] = arr[i];
+            }
+        }
+        return j + 1;
+    }
+
+    int binarySearch(int arr[], int n, int key) {
+        quicksort(arr, 0, n - 1);
+        int left = 0, right = n - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] == key) return mid;
+            else if (arr[mid] < key) left = mid + 1;
+            else right = mid - 1;
+        }
+        return -1;
+    }
+
+    int range(int arr[], int n) {
+        return findMax(arr, n) - findMin(arr, n);
+    }
 };
 
 class QuickSelect {
@@ -218,21 +279,9 @@ int main() {
     }
 
     printf("\nChoose an operation:\n");
-    printf("1. Find k-th smallest\n");
-    printf("2. Find k-th largest\n");
-    printf("3. Find minimum\n");
-    printf("4. Find maximum\n");
-    printf("5. Find median\n");
-    printf("6. Sort array\n");
-    printf("7. Sum of elements\n");
-    printf("8. Average of elements\n");
-    printf("9. Frequency of a number\n");
-    printf("10. Mode of the array\n");
-    printf("11. Reverse the array\n");
-    printf("12. Count even numbers\n");
-    printf("13. Count odd numbers\n");
-    printf("14. Rotate left\n");
-    printf("15. Rotate right\n");
+    printf("1. K-th Smallest\n2. K-th Largest\n3. Min\n4. Max\n5. Median\n6. Sort\n7. Sum\n8. Avg\n9. Frequency\n");
+    printf("10. Mode\n11. Reverse\n12. Count Even\n13. Count Odd\n14. Rotate Left\n15. Rotate Right\n");
+    printf("16. Second Min\n17. Second Max\n18. Count Primes\n19. Remove Duplicates\n20. Range\n21. Binary Search\n");
     printf("Enter choice: ");
     scanf("%d", &choice);
 
@@ -252,48 +301,63 @@ int main() {
         int res = qs.select(arr, n, k, 1);
         printf("The %d-th largest element is: %d\n", k, res);
     } else if (choice == 3) {
-        printf("Minimum value is: %d\n", utils.findMin(arr, n));
+        printf("Minimum: %d\n", utils.findMin(arr, n));
     } else if (choice == 4) {
-        printf("Maximum value is: %d\n", utils.findMax(arr, n));
+        printf("Maximum: %d\n", utils.findMax(arr, n));
     } else if (choice == 5) {
-        printf("Median is: %.2f\n", utils.findMedian(arr, n));
+        printf("Median: %.2f\n", utils.findMedian(arr, n));
     } else if (choice == 6) {
         utils.quicksort(arr, 0, n - 1);
-        printf("Sorted array: ");
         utils.printArray(arr, n);
     } else if (choice == 7) {
-        printf("Sum of elements: %d\n", utils.sum(arr, n));
+        printf("Sum: %d\n", utils.sum(arr, n));
     } else if (choice == 8) {
         printf("Average: %.2f\n", utils.average(arr, n));
     } else if (choice == 9) {
         int x;
-        printf("Enter number to find frequency: ");
+        printf("Enter number: ");
         scanf("%d", &x);
-        printf("Frequency of %d: %d\n", x, utils.frequency(arr, n, x));
+        printf("Frequency: %d\n", utils.frequency(arr, n, x));
     } else if (choice == 10) {
-        printf("Mode of array: %d\n", utils.mode(arr, n));
+        printf("Mode: %d\n", utils.mode(arr, n));
     } else if (choice == 11) {
         utils.reverse(arr, n);
-        printf("Reversed array: ");
         utils.printArray(arr, n);
     } else if (choice == 12) {
-        printf("Number of even elements: %d\n", utils.countEven(arr, n));
+        printf("Even count: %d\n", utils.countEven(arr, n));
     } else if (choice == 13) {
-        printf("Number of odd elements: %d\n", utils.countOdd(arr, n));
+        printf("Odd count: %d\n", utils.countOdd(arr, n));
     } else if (choice == 14) {
         int d;
-        printf("Enter number of positions to rotate left: ");
+        printf("Positions: ");
         scanf("%d", &d);
         utils.rotateLeft(arr, n, d);
-        printf("Array after left rotation: ");
         utils.printArray(arr, n);
     } else if (choice == 15) {
         int d;
-        printf("Enter number of positions to rotate right: ");
+        printf("Positions: ");
         scanf("%d", &d);
         utils.rotateRight(arr, n, d);
-        printf("Array after right rotation: ");
         utils.printArray(arr, n);
+    } else if (choice == 16) {
+        printf("Second Min: %d\n", utils.findSecondMin(arr, n));
+    } else if (choice == 17) {
+        printf("Second Max: %d\n", utils.findSecondMax(arr, n));
+    } else if (choice == 18) {
+        printf("Primes count: %d\n", utils.countPrimes(arr, n));
+    } else if (choice == 19) {
+        int newSize = utils.removeDuplicates(arr, n);
+        printf("After removing duplicates: ");
+        utils.printArray(arr, newSize);
+    } else if (choice == 20) {
+        printf("Range: %d\n", utils.range(arr, n));
+    } else if (choice == 21) {
+        int x;
+        printf("Enter number to search: ");
+        scanf("%d", &x);
+        int pos = utils.binarySearch(arr, n, x);
+        if (pos == -1) printf("Not found\n");
+        else printf("Found at index: %d\n", pos);
     } else {
         printf("Invalid choice\n");
     }

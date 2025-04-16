@@ -217,6 +217,57 @@ public:
     int range(int arr[], int n) {
         return findMax(arr, n) - findMin(arr, n);
     }
+
+    int gcd(int a, int b) {
+        while (b != 0) {
+            int t = b;
+            b = a % b;
+            a = t;
+        }
+        return a;
+    }
+
+    int lcm(int a, int b) {
+        return (a * b) / gcd(a, b);
+    }
+
+    void prefixSum(int arr[], int n, int prefix[]) {
+        prefix[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            prefix[i] = prefix[i - 1] + arr[i];
+        }
+    }
+
+    void suffixSum(int arr[], int n, int suffix[]) {
+        suffix[n - 1] = arr[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            suffix[i] = suffix[i + 1] + arr[i];
+        }
+    }
+
+    int countPositive(int arr[], int n) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] > 0) count++;
+        }
+        return count;
+    }
+
+    int countNegative(int arr[], int n) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] < 0) count++;
+        }
+        return count;
+    }
+
+    int product(int arr[], int n) {
+        int p = 1;
+        for (int i = 0; i < n; i++) {
+            p *= arr[i];
+        }
+        return p;
+    }
 };
 
 class QuickSelect {
@@ -263,7 +314,7 @@ public:
 int main() {
     QuickSelect qs;
     Utils utils;
-    int arr[1000];
+    int arr[1000], prefix[1000], suffix[1000];
     int n, k, choice;
 
     printf("Enter number of elements: ");
@@ -282,6 +333,7 @@ int main() {
     printf("1. K-th Smallest\n2. K-th Largest\n3. Min\n4. Max\n5. Median\n6. Sort\n7. Sum\n8. Avg\n9. Frequency\n");
     printf("10. Mode\n11. Reverse\n12. Count Even\n13. Count Odd\n14. Rotate Left\n15. Rotate Right\n");
     printf("16. Second Min\n17. Second Max\n18. Count Primes\n19. Remove Duplicates\n20. Range\n21. Binary Search\n");
+    printf("22. GCD\n23. LCM\n24. Prefix Sum\n25. Suffix Sum\n26. Count Positive\n27. Count Negative\n28. Product\n");
     printf("Enter choice: ");
     scanf("%d", &choice);
 
@@ -358,6 +410,28 @@ int main() {
         int pos = utils.binarySearch(arr, n, x);
         if (pos == -1) printf("Not found\n");
         else printf("Found at index: %d\n", pos);
+    } else if (choice == 22) {
+        int a, b;
+        printf("Enter two numbers: ");
+        scanf("%d %d", &a, &b);
+        printf("GCD: %d\n", utils.gcd(a, b));
+    } else if (choice == 23) {
+        int a, b;
+        printf("Enter two numbers: ");
+        scanf("%d %d", &a, &b);
+        printf("LCM: %d\n", utils.lcm(a, b));
+    } else if (choice == 24) {
+        utils.prefixSum(arr, n, prefix);
+        utils.printArray(prefix, n);
+    } else if (choice == 25) {
+        utils.suffixSum(arr, n, suffix);
+        utils.printArray(suffix, n);
+    } else if (choice == 26) {
+        printf("Positive count: %d\n", utils.countPositive(arr, n));
+    } else if (choice == 27) {
+        printf("Negative count: %d\n", utils.countNegative(arr, n));
+    } else if (choice == 28) {
+        printf("Product: %d\n", utils.product(arr, n));
     } else {
         printf("Invalid choice\n");
     }
